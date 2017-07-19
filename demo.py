@@ -115,7 +115,7 @@ if __name__ == "__main__":
 
     args = parse_args()
 
-    TEST_IMAGE_PATHS = [os.path.join("/root/object_detection/test_images",\                                   'image{}.jpg'.format(i)) for i in range(1,3)]
+    TEST_IMAGE_PATHS = [os.path.join("/root/object_detection/test_images", 'image{}.jpg'.format(i)) for i in range(1,3)]
     THRESHOLD = 0.7
     model = MODELS[args.net]
     sess = load_model(model)
