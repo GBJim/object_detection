@@ -28,7 +28,7 @@ category_index = label_map_util.create_category_index(categories)
 #
 def parse_args():
     parser = argparse.ArgumentParser(description='Tensor Flow Detection Models')
-    parser.add_argument('--net', dest='net', help='Which model to specify',
+    parser.add_argument('--net', dest='net', help='Which model to specify:  1.SSD-Mobilenet, 2.SSD-Inception, 3.RFCN-ResNet, 4.Faster-RCNN-Resnet, 5.Faster-RCNN-Inception-Resnet',
                         default=1, type=int, choices=[1,2,3,4,5])
     args = parser.parse_args()
     return args
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 
     TEST_IMAGE_PATHS = [os.path.join("/root/object_detection/test_images", 'image{}.jpg'.format(i)) for i in range(1,3)]
     THRESHOLD = 0.7
-    model = MODELS[args.net]
+    model = MODELS[args.net-1]
     sess = load_model(model)
     for img_path in TEST_IMAGE_PATHS:
         result = detect(sess, img_path, thresh=THRESHOLD)
