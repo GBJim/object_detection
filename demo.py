@@ -1,13 +1,7 @@
 import numpy as np
 import os
-import six.moves.urllib as urllib
-import sys
-import tarfile
+import cv2
 import tensorflow as tf
-import zipfile
-from collections import defaultdict
-from io import StringIO
-from PIL import Image
 import time
 import label_map_util
 import argparse
@@ -92,10 +86,12 @@ def translate_result(boxes, scores, classes, num_detections, im_width, im_height
 
 
 def detect(sess, img_path, thresh=0.7):
-    img = Image.open(img_path)
-    img_width, img_height = img.size
-    img_np = load_image_into_numpy_array(img)
-    img_np_expanded = np.expand_dims(img_np, axis=0)
+    
+    #Image reading and preprocessing
+    img = cv2.imread(img_path)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)    
+    img_height, img_width, _ = img.shape   
+    img_np_expanded = np.expand_dims(img, axis=0)
     
     #Initalization of output and input tensors for session
     img_tensor = sess.graph.get_tensor_by_name('image_tensor:0')
@@ -119,7 +115,8 @@ if __name__ == "__main__":
     THRESHOLD = 0.7
     model = MODELS[args.net-1]
     sess = load_model(model)
-    for img_path in TEST_IMAGE_PATHS:
+    for img_path in TEST_IMAGE_PATHS*100:
+	tic = time.time()
         result = detect(sess, img_path, thresh=THRESHOLD)
         outputs = result
         for output in outputs:                     
@@ -128,7 +125,5 @@ if __name__ == "__main__":
             x = output['x']
             y = output['y']
             width = output['width']
-            height = output['height']                       
-            print("'{}' detected with confidence {} in [{}, {}, {}, {}]".format(class_name.upper(),\
-                                                                              score, x, y, width,\
-                                                                              height))    
+            height = output['height']   
+            print(time.time()-tic)                    
