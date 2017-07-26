@@ -1,11 +1,10 @@
 import numpy as np
 import os
-import cv2
 import tensorflow as tf
 import time
 import label_map_util
 import argparse
-
+import cv2
 MODELS = ['ssd_mobilenet_v1_coco_11_06_2017', 'ssd_inception_v2_coco_11_06_2017',\
                   'rfcn_resnet101_coco_11_06_2017', 'faster_rcnn_resnet101_coco_11_06_2017',\
                    'faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017']
@@ -86,11 +85,12 @@ def translate_result(boxes, scores, classes, num_detections, im_width, im_height
 
 
 def detect(sess, img_path, thresh=0.7):
-    
-    #Image reading and preprocessing
+    #img = Image.open(img_path)
+    #
+    #img_np = load_image_into_numpy_array(img)
     img = cv2.imread(img_path)
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)    
-    img_height, img_width, _ = img.shape   
+    img_height, img_width, _ = img.shape
     img_np_expanded = np.expand_dims(img, axis=0)
     
     #Initalization of output and input tensors for session
@@ -106,6 +106,8 @@ def detect(sess, img_path, thresh=0.7):
  
     return translate_result(boxes, scores, classes, num_detections, img_width,\
                             img_height,thresh)
+
+
     
 if __name__ == "__main__":
 
@@ -114,11 +116,12 @@ if __name__ == "__main__":
     TEST_IMAGE_PATHS = [os.path.join("/root/object_detection/test_images", 'image{}.jpg'.format(i)) for i in range(1,3)]
     THRESHOLD = 0.7
     model = MODELS[args.net-1]
-    sess = load_model(model)
-    for img_path in TEST_IMAGE_PATHS*100:
-	tic = time.time()
-        result = detect(sess, img_path, thresh=THRESHOLD)
-        outputs = result
+    sess = load_model(model) 
+   
+    for img_path in TEST_IMAGE_PATHS:
+        tic = time.time()
+        outputs = detect(sess, img_path, thresh=THRESHOLD)
+        
         for output in outputs:                     
             score = output['score'] 
             class_name = output['class']
@@ -126,4 +129,13 @@ if __name__ == "__main__":
             y = output['y']
             width = output['width']
             height = output['height']   
-            print(time.time()-tic)                    
+            print("Detection Time {0:.2f} sec".format(time.time()-tic))       
+            print("'{}' detected with confidence {} in [{}, {}, {}, {}]\n".format(class_name.upper(),\
+                                                                               score, x, y, width,\
+                                                                               height))    
+
+            
+            
+            
+            
+            
