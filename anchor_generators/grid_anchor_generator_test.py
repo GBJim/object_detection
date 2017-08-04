@@ -17,7 +17,7 @@
 
 import tensorflow as tf
 
-from object_detection.anchor_generators import grid_anchor_generator
+from anchor_generators import grid_anchor_generator
 
 
 class GridAnchorGeneratorTest(tf.test.TestCase):

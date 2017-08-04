@@ -33,7 +33,7 @@ from abc import abstractmethod
 
 import tensorflow as tf
 
-from object_detection.utils import ops
+from utils import ops
 
 
 class MinibatchSampler(object):

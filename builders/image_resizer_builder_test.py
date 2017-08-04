@@ -16,8 +16,8 @@
 """Tests for object_detection.builders.image_resizer_builder."""
 import tensorflow as tf
 from google.protobuf import text_format
-from object_detection.builders import image_resizer_builder
-from object_detection.protos import image_resizer_pb2
+from builders import image_resizer_builder
+from protos import image_resizer_pb2
 
 
 class ImageResizerBuilderTest(tf.test.TestCase):

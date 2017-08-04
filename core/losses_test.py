@@ -19,9 +19,9 @@ import math
 import numpy as np
 import tensorflow as tf
 
-from object_detection.core import box_list
-from object_detection.core import losses
-from object_detection.core import matcher
+from core import box_list
+from core import losses
+from core import matcher
 
 
 class WeightedL2LocalizationLossTest(tf.test.TestCase):

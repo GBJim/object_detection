@@ -17,8 +17,8 @@
 import functools
 
 import tensorflow as tf
-from object_detection.core import post_processing
-from object_detection.protos import post_processing_pb2
+from core import post_processing
+from protos import post_processing_pb2
 
 
 def build(post_processing_config):

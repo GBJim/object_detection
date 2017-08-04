@@ -18,9 +18,9 @@
 import tensorflow as tf
 
 from google.protobuf import text_format
-from object_detection.builders import losses_builder
-from object_detection.core import losses
-from object_detection.protos import losses_pb2
+from builders import losses_builder
+from core import losses
+from protos import losses_pb2
 
 
 class LocalizationLossBuilderTest(tf.test.TestCase):

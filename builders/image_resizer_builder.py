@@ -16,8 +16,8 @@
 """Builder function for image resizing operations."""
 import functools
 
-from object_detection.core import preprocessor
-from object_detection.protos import image_resizer_pb2
+from core import preprocessor
+from protos import image_resizer_pb2
 
 
 def build(image_resizer_config):

@@ -33,15 +33,15 @@ images must be handled externally.
 """
 import tensorflow as tf
 
-from object_detection.box_coders import faster_rcnn_box_coder
-from object_detection.box_coders import mean_stddev_box_coder
-from object_detection.core import box_coder as bcoder
-from object_detection.core import box_list
-from object_detection.core import box_list_ops
-from object_detection.core import matcher as mat
-from object_detection.core import region_similarity_calculator as sim_calc
-from object_detection.matchers import argmax_matcher
-from object_detection.matchers import bipartite_matcher
+from box_coders import faster_rcnn_box_coder
+from box_coders import mean_stddev_box_coder
+from core import box_coder as bcoder
+from core import box_list
+from core import box_list_ops
+from core import matcher as mat
+from core import region_similarity_calculator as sim_calc
+from matchers import argmax_matcher
+from matchers import bipartite_matcher
 
 
 class TargetAssigner(object):

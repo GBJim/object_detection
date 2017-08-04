@@ -16,8 +16,8 @@
 """Tests for region_similarity_calculator."""
 import tensorflow as tf
 
-from object_detection.core import box_list
-from object_detection.core import region_similarity_calculator
+from core import box_list
+from core import region_similarity_calculator
 
 
 class RegionSimilarityCalculatorTest(tf.test.TestCase):

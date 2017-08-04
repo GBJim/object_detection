@@ -23,14 +23,14 @@ import functools
 
 import tensorflow as tf
 
-from object_detection.builders import optimizer_builder
-from object_detection.builders import preprocessor_builder
-from object_detection.core import batcher
-from object_detection.core import preprocessor
-from object_detection.core import standard_fields as fields
-from object_detection.utils import ops as util_ops
-from object_detection.utils import variables_helper
-from deployment import model_deploy
+from builders import optimizer_builder
+from builders import preprocessor_builder
+from core import batcher
+from core import preprocessor
+from core import standard_fields as fields
+from utils import ops as util_ops
+from utils import variables_helper
+from slim.deployment import model_deploy
 
 slim = tf.contrib.slim
 

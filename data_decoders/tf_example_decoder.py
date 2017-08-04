@@ -20,8 +20,8 @@ protos for object detection.
 """
 import tensorflow as tf
 
-from object_detection.core import data_decoder
-from object_detection.core import standard_fields as fields
+from core import data_decoder
+from core import standard_fields as fields
 
 slim_example_decoder = tf.contrib.slim.tfexample_decoder
 

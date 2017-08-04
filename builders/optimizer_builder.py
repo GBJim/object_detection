@@ -16,7 +16,7 @@
 """Functions to build DetectionModel training optimizers."""
 
 import tensorflow as tf
-from object_detection.utils import learning_schedules
+from utils import learning_schedules
 
 slim = tf.contrib.slim
 

@@ -18,8 +18,8 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import errors
 
-from object_detection.core import box_list
-from object_detection.core import box_list_ops
+from core import box_list
+from core import box_list_ops
 
 
 class BoxListOpsTest(tf.test.TestCase):

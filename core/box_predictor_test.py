@@ -19,9 +19,9 @@ import numpy as np
 import tensorflow as tf
 
 from google.protobuf import text_format
-from object_detection.builders import hyperparams_builder
-from object_detection.core import box_predictor
-from object_detection.protos import hyperparams_pb2
+from builders import hyperparams_builder
+from core import box_predictor
+from protos import hyperparams_pb2
 
 
 class MaskRCNNBoxPredictorTest(tf.test.TestCase):
