@@ -23,13 +23,13 @@ from abc import abstractmethod
 import re
 import tensorflow as tf
 
-from object_detection.core import box_coder as bcoder
-from object_detection.core import box_list
-from object_detection.core import box_predictor as bpredictor
-from object_detection.core import model
-from object_detection.core import standard_fields as fields
-from object_detection.core import target_assigner
-from object_detection.utils import variables_helper
+from core import box_coder as bcoder
+from core import box_list
+from core import box_predictor as bpredictor
+from core import model
+from core import standard_fields as fields
+from core import target_assigner
+from utils import variables_helper
 
 slim = tf.contrib.slim
 

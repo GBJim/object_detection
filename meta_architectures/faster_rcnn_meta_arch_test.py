@@ -17,7 +17,7 @@
 
 import tensorflow as tf
 
-from object_detection.meta_architectures import faster_rcnn_meta_arch_test_lib
+from meta_architectures import faster_rcnn_meta_arch_test_lib
 
 
 class FasterRCNNMetaArchTest(

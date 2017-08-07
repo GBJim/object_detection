@@ -69,18 +69,18 @@ from abc import abstractmethod
 from functools import partial
 import tensorflow as tf
 
-from object_detection.anchor_generators import grid_anchor_generator
-from object_detection.core import balanced_positive_negative_sampler as sampler
-from object_detection.core import box_list
-from object_detection.core import box_list_ops
-from object_detection.core import box_predictor
-from object_detection.core import losses
-from object_detection.core import model
-from object_detection.core import post_processing
-from object_detection.core import standard_fields as fields
-from object_detection.core import target_assigner
-from object_detection.utils import ops
-from object_detection.utils import variables_helper
+from anchor_generators import grid_anchor_generator
+from core import balanced_positive_negative_sampler as sampler
+from core import box_list
+from core import box_list_ops
+from core import box_predictor
+from core import losses
+from core import model
+from core import post_processing
+from core import standard_fields as fields
+from core import target_assigner
+from utils import ops
+from utils import variables_helper
 
 slim = tf.contrib.slim
 
