@@ -155,7 +155,9 @@ def write_testing_results_file(sess, imdb, skip):
                 x = output['x']
                 y = output['y']
                 width = output['width']
-                height = output['height']          
+                height = output['height']         
+                #replace space with '-' for the Octave tool
+                label = output['class'].replace(" ", "-")
                 w.write("{},{},{},{},{},{},{}\n".format(frame_num, x, y, width, height, score, label))
           
 

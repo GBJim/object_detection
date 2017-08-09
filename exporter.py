@@ -24,9 +24,9 @@ from tensorflow.python.framework import importer
 from tensorflow.python.platform import gfile
 from tensorflow.python.saved_model import signature_constants
 from tensorflow.python.training import saver as saver_lib
-from object_detection.builders import model_builder
-from object_detection.core import standard_fields as fields
-from object_detection.data_decoders import tf_example_decoder
+from builders import model_builder
+from core import standard_fields as fields
+from data_decoders import tf_example_decoder
 
 slim = tf.contrib.slim
 
