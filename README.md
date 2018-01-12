@@ -21,6 +21,7 @@ Install the following dependencies sequentially
 
 ### 5.TensorFlow
 1. Launch the CMDt and install TensorFlow as following:
+
 ```
 #Create a conda environment named tensorflow
 C:> conda create -n tensorflow python=3.5
@@ -30,7 +31,9 @@ C:> activate tensorflow
 #Install Tensorflow
 (tensorflow)C:> pip install --ignore-installed --upgrade tensorflow-gpu 
 ```
+
 2. To validate the installation, do as following in CMD:
+
 ```
 $ python
 #After entering the python shell, run the following lines.
@@ -41,31 +44,35 @@ $ python
 >>> print(sess.run(hello))
 
 #You should see prompts about GPU messages
-
 ```
 
 ### 6.OpenCV and Python Dependencies 
 1. In the conda environment, install openCV
+
 ```
 (tensorflow)C:> conda install -c menpo opencv
 ```
+
 2. Install all the required Python packages
+
 ```
 (tensorflow)C:> pip install matplotlib pillow lxml
 ```
 
 ## Installation
 1. Clone this repository
+
 ```
 $ git clone http://172.16.15.205/ainvr/object_detection.git
 ```
+
 2. Download the protoc 3.4.0 binary for Windows. [Download Link](https://github.com/google/protobuf/releases/download/v3.4.0/protoc-3.4.0-win32.zip). Unzip the  bin/protoc.exe to the directory which contains the object_detection repo.
 
 3. Compile the prototxt for the detection API
+
 ```
 ##From directory 
 $ protoc object_detection/protos/*.proto --python_out=.
-
 ```
 
 4. Add an environment variable PYTHONPATH, include the path of object_detection/slim
