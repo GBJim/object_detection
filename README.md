@@ -18,6 +18,7 @@ Install the following dependencies sequentially
 ### 4.Miniconda
 1. Download the Miniconda of Python2.7 for Windows. [Download Link](https://conda.io/miniconda.html)
 2. Install Miniconda
+3. Add the conda path 'C:\ProgramData\Miniconda2' into the PATH system variable
 
 ### 5.TensorFlow
 1. Launch the CMDt and install TensorFlow as following:
@@ -63,12 +64,12 @@ $ git clone http://172.16.15.205/ainvr/object_detection.git
 
 3. Compile the prototxt for the detection API
 ```
-##From directory 
+#From the corresponding directory 
 $ protoc object_detection/protos/*.proto --python_out=.
 
 ```
 
-4. Add an environment variable PYTHONPATH, include the path of object_detection/slim
+4. Add a new environment variable PYTHONPATH, add the path of object_detection/slim
 
 
 # Tensorflow Object Detection API
