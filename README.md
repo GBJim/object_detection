@@ -1,3 +1,77 @@
+#Windows Branch of Tensorflow Object Detectors
+
+## Prerequisite
+Install the following dependencies sequentially
+
+### 1.Nvidia GPU Drivier
+1. Download the latest Nvidia Driver for GPU from Nvidia Website. [Download Link](http://www.nvidia.com.tw/Download/index.aspx)
+2. Install the driver. 
+
+### 2.CUDA Toolkit 8.0
+1. Download CUDA Toolkit 8.0 for Windows from Nvidia Website. [Download Link](https://developer.nvidia.com/cuda-80-ga2-download-archive) 
+2. Install the CUDA Toolkit. 
+
+### 3.cuDNN V6
+1. Download the Windows version of cuDNN v6 for CUDA 8.0 from Nvidia Website. [Download Link](https://developer.nvidia.com/cudnn)(You need to register for downloading)
+2. Unzip the folders bin, lib, and include to the CUDA installation path, which is C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0 by default
+
+### 4.Miniconda
+1. Download the Miniconda of Python2.7 for Windows. [Download Link](https://conda.io/miniconda.html)
+2. Install Miniconda
+3. Add the conda path 'C:\ProgramData\Miniconda2' into the PATH system variable
+
+### 5.TensorFlow
+1. Launch the CMDt and install TensorFlow as following:
+```
+#Create a conda environment named tensorflow
+C:> conda create -n tensorflow python=3.5
+#Activate the conda environment
+C:> activate tensorflow
+ (tensorflow)C:>  # Your prompt should change  
+#Install Tensorflow
+(tensorflow)C:> pip install --ignore-installed --upgrade tensorflow-gpu 
+```
+2. To validate the installation, do as following in CMD:
+```
+$ python
+#After entering the python shell, run the following lines.
+
+>>> import tensorflow as tf
+>>> hello = tf.constant('Hello, TensorFlow!')
+>>> sess = tf.Session()
+>>> print(sess.run(hello))
+
+#You should see prompts about GPU messages
+
+```
+
+### 6.OpenCV and Python Dependencies 
+1. In the conda environment, install openCV
+```
+(tensorflow)C:> conda install -c menpo opencv
+```
+2. Install all the required Python packages
+```
+(tensorflow)C:> pip install matplotlib pillow lxml
+```
+
+## Installation
+1. Clone this repository
+```
+$ git clone http://172.16.15.205/ainvr/object_detection.git
+```
+2. Download the protoc 3.4.0 binary for Windows. [Download Link](https://github.com/google/protobuf/releases/download/v3.4.0/protoc-3.4.0-win32.zip). Unzip the  bin/protoc.exe to the directory which contains the object_detection repo.
+
+3. Compile the prototxt for the detection API
+```
+#From the corresponding directory 
+$ protoc object_detection/protos/*.proto --python_out=.
+
+```
+
+4. Add a new environment variable PYTHONPATH, add the path of object_detection/slim
+
+
 # Tensorflow Object Detection API
 Creating accurate machine learning models capable of localizing and identifying
 multiple objects in a single image remains a core challenge in computer vision.
