@@ -55,7 +55,7 @@ $ python
 (tensorflow)C:> pip install matplotlib pillow lxml
 ```
 
-## Installation
+## Install Tensorflow:Object Detection
 1. Clone this repository
 ```
 $ git clone http://172.16.15.205/ainvr/object_detection.git
@@ -70,6 +70,8 @@ $ protoc object_detection/protos/*.proto --python_out=.
 ```
 
 4. Add a new environment variable PYTHONPATH, add the path of object_detection/slim
+
+5. Download the trained <b>faster_rcnn_inception_v2_coco model</b>. [Download Link](http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2017_11_08.tar.gz). Unzip it to the object_detection directory. 
 
 
 # Tensorflow Object Detection API
