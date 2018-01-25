@@ -10,8 +10,6 @@ import glob
 MODELS = ['faster_rcnn_inception_v2_coco_2017_11_08']
 
 
-
-
 NUM_CLASSES = 90
 PATH_TO_LABELS = "data\mscoco_label_map.pbtxt"
 label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
@@ -55,7 +53,7 @@ def load_image_into_numpy_array(image):
       (im_height, im_width, 3)).astype(np.uint8)
 
 
-def translate_result(boxes, scores, classes, num_detections, im_width, im_height, thresh):
+def translate_result(boxes, scores, classes, num_detections, im_width, im_height, thresh, roi):
     #Normalizing the detection result
     boxes = np.squeeze(boxes)
     scores = np.squeeze(scores)
@@ -75,23 +73,31 @@ def translate_result(boxes, scores, classes, num_detections, im_width, im_height
         output = {}        
         output['score'] = score
         output['class'] = class_name
-        output['x'] = left
-        output['y'] = top
-        output['width'] = right-left
-        output['height'] = bottom-top
+        output['x'] = left + roi[0]
+        output['y'] = top + roi[1]
+        output['width'] = right - left
+        output['height'] = bottom - top
         #Append each detection into a list
         outputs.append(output)
     return outputs
 
 
-def detect(sess, img_path, thresh=0.7):
+def detect(sess, img_path, roi=(0,0,0,0), thresh=0.7):
     #img = Image.open(img_path)
     #
     #img_np = load_image_into_numpy_array(img)
     img = cv2.imread(img_path)
-    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)    
-    img_height, img_width, _ = img.shape
-    img_np_expanded = np.expand_dims(img, axis=0)
+     #img_height, img_width, _ = .shape
+    
+    if roi[2] > 0:
+        roiImage = img[roi[1]:roi[1]+roi[3], roi[0]:roi[0]+roi[2]] # y1, y2, x1, x2
+    else:
+        roiImage = img.copy()
+
+    roiImage = cv2.cvtColor(roiImage, cv2.COLOR_RGB2BGR)
+    
+    img_height, img_width, _ = roiImage.shape
+    img_np_expanded = np.expand_dims(roiImage, axis=0)
     
     #Initalization of output and input tensors for session
     img_tensor = sess.graph.get_tensor_by_name('image_tensor:0')
@@ -105,7 +111,7 @@ def detect(sess, img_path, thresh=0.7):
     boxes, scores, classes, num_detections = sess.run(outputs,feed_dict=feed_dict) 
  
     return translate_result(boxes, scores, classes, num_detections, img_width,\
-                            img_height,thresh)
+                            img_height, thresh, roi)
 
 
     
