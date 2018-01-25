@@ -53,7 +53,7 @@ def load_image_into_numpy_array(image):
       (im_height, im_width, 3)).astype(np.uint8)
 
 
-def translate_result(boxes, scores, classes, num_detections, im_width, im_height, thresh):
+def translate_result(boxes, scores, classes, num_detections, im_width, im_height, thresh, roi):
     #Normalizing the detection result
     boxes = np.squeeze(boxes)
     scores = np.squeeze(scores)
@@ -75,8 +75,8 @@ def translate_result(boxes, scores, classes, num_detections, im_width, im_height
         output['class'] = class_name
         output['x'] = left + roi[0]
         output['y'] = top + roi[1]
-        output['width'] = right - output['x']
-        output['height'] = bottom - output['y']
+        output['width'] = right - left
+        output['height'] = bottom - top
         #Append each detection into a list
         outputs.append(output)
     return outputs
@@ -87,11 +87,12 @@ def detect(sess, img_path, roi=(0,0,0,0), thresh=0.7):
     #
     #img_np = load_image_into_numpy_array(img)
     img = cv2.imread(img_path)
+     #img_height, img_width, _ = .shape
     
     if roi[2] > 0:
-        roiImage = im[roi[1]:roi[1]+roi[3], roi[0]:roi[0]+roi[2]] # y1, y2, x1, x2
+        roiImage = img[roi[1]:roi[1]+roi[3], roi[0]:roi[0]+roi[2]] # y1, y2, x1, x2
     else:
-        roiImage = im.copy()
+        roiImage = img.copy()
 
     roiImage = cv2.cvtColor(roiImage, cv2.COLOR_RGB2BGR)
     

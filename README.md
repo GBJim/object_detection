@@ -73,6 +73,12 @@ $ protoc object_detection/protos/*.proto --python_out=.
 
 5. Download the trained <b>faster_rcnn_inception_v2_coco model</b>. [Download Link](http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2017_11_08.tar.gz). Unzip it to the object_detection directory. 
 
+6. Run a simple dmeo
+```
+#From the object_detection directory
+$ python detector.py
+
+```
 
 # Tensorflow Object Detection API
 Creating accurate machine learning models capable of localizing and identifying
