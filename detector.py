@@ -6,7 +6,7 @@ import label_map_util
 import argparse
 import cv2
 import glob
-
+from nms.cpu_nms import cpu_nms as nms
 MODELS = ['faster_rcnn_inception_v2_coco_2017_11_08']
 
 
@@ -47,13 +47,61 @@ def load_model(model, dynamic_memory=True):
     return tf.Session(graph=detection_graph, config=config)
 
 
-def load_image_into_numpy_array(image):
-  (im_width, im_height) = image.size
-  return np.array(image.getdata()).reshape(
-      (im_height, im_width, 3)).astype(np.uint8)
 
 
-def translate_result(boxes, scores, classes, num_detections, im_width, im_height, thresh, roi):
+def translate_result_NMS(boxes, scores, classes, im_width, im_height, thresh, NMS_THRESH=0.5, TYPE_NUM=90):
+    #Normalizing the detection result
+    boxes = np.squeeze(boxes)
+    scores = np.squeeze(scores)
+    classes = np.squeeze(classes)    
+    
+    thresh_mask = scores > thresh
+    
+    scores = scores[thresh_mask]
+    boxes = boxes[thresh_mask]
+    classes = classes[thresh_mask].astype(int)
+    
+    outputs = []   
+    
+    for cls_ind in range(TYPE_NUM):
+        cls_mask = (classes == cls_ind)
+        if np.sum(cls_mask) == 0:
+           
+        filtered_boxes = boxes[cls_mask]
+        filtered_scores = scores[cls_mask]
+
+        dets = np.hstack((boxes[cls_mask], scores[cls_mask][:, np.newaxis]))
+        #keep = nms(dets, NMS_THRESH)
+
+        #filtered_boxes = filtered_boxes[keep]
+        #filtered_scores = filtered_scores[keep]
+
+
+        for i, score in enumerate(filtered_scores):      
+            #Stop when score is lower than threshold since the score is sorted
+            #!!!!Performance of this line can be improved!!!！
+
+
+            class_name = category_index[cls_ind]['name']
+            ymin, xmin, ymax, xmax = filtered_boxes[i]
+            left, right, top, bottom = (xmin * im_width, xmax * im_width,\
+                                      ymin * im_height, ymax * im_height)          
+            #Allocating result into ouput dict
+            output = {}      
+
+            output['score'] = score
+            output['class'] = class_name
+            output['x'] = left
+            output['y'] = top
+            output['width'] = right-left
+            output['height'] = bottom-top
+            #Append each detection into a list
+            outputs.append(output)
+    return outputs
+
+
+
+def translate_result(boxes, scores, classes, im_width, im_height, thresh, roi):
     #Normalizing the detection result
     boxes = np.squeeze(boxes)
     scores = np.squeeze(scores)
@@ -104,13 +152,12 @@ def detect(sess, img_path, roi=(0,0,0,0), thresh=0.7):
     boxes = sess.graph.get_tensor_by_name('detection_boxes:0')
     scores = sess.graph.get_tensor_by_name('detection_scores:0')
     classes = sess.graph.get_tensor_by_name('detection_classes:0')
-    num_detections = sess.graph.get_tensor_by_name('num_detections:0')
     
-    outputs = [boxes, scores, classes, num_detections]
+    outputs = [boxes, scores, classes]
     feed_dict = {img_tensor: img_np_expanded}
-    boxes, scores, classes, num_detections = sess.run(outputs,feed_dict=feed_dict) 
+    boxes, scores, classes = sess.run(outputs,feed_dict=feed_dict) 
  
-    return translate_result(boxes, scores, classes, num_detections, img_width,\
+    return translate_result_NMS(boxes, scores, classes, img_width,\
                             img_height, thresh, roi)
 
 
