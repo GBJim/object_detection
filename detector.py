@@ -6,7 +6,7 @@ import label_map_util
 import argparse
 import cv2
 import glob
-from nms.cpu_nms import cpu_nms as nms
+from nms.py_cpu_nms import py_cpu_nms as nms
 MODELS = ['faster_rcnn_inception_v2_coco_2017_11_08']
 
 
@@ -49,7 +49,7 @@ def load_model(model, dynamic_memory=True):
 
 
 
-def translate_result_NMS(boxes, scores, classes, im_width, im_height, thresh, NMS_THRESH=0.5, TYPE_NUM=90):
+def translate_result_NMS(boxes, scores, classes, im_width, im_height, thresh, roi, NMS_THRESH=0.7, TYPE_NUM=90):
     #Normalizing the detection result
     boxes = np.squeeze(boxes)
     scores = np.squeeze(scores)
@@ -65,16 +65,15 @@ def translate_result_NMS(boxes, scores, classes, im_width, im_height, thresh, NM
     
     for cls_ind in range(TYPE_NUM):
         cls_mask = (classes == cls_ind)
-        if np.sum(cls_mask) == 0:
-           
+        if np.sum(cls_mask) <= 1:
+            continue           
         filtered_boxes = boxes[cls_mask]
         filtered_scores = scores[cls_mask]
+        dets = np.hstack((filtered_boxes,  filtered_scores[:, np.newaxis]))
+        keep = nms(dets, NMS_THRESH)
 
-        dets = np.hstack((boxes[cls_mask], scores[cls_mask][:, np.newaxis]))
-        #keep = nms(dets, NMS_THRESH)
-
-        #filtered_boxes = filtered_boxes[keep]
-        #filtered_scores = filtered_scores[keep]
+        filtered_boxes = filtered_boxes[keep]
+        filtered_scores = filtered_scores[keep]
 
 
         for i, score in enumerate(filtered_scores):      
@@ -91,8 +90,8 @@ def translate_result_NMS(boxes, scores, classes, im_width, im_height, thresh, NM
 
             output['score'] = score
             output['class'] = class_name
-            output['x'] = left
-            output['y'] = top
+            output['x'] = left + roi[0]
+            output['y'] = top + roi[1]
             output['width'] = right-left
             output['height'] = bottom-top
             #Append each detection into a list
@@ -130,7 +129,7 @@ def translate_result(boxes, scores, classes, im_width, im_height, thresh, roi):
     return outputs
 
 
-def detect(sess, img_path, roi=(0,0,0,0), thresh=0.7):
+def detect(sess, img_path, roi=(0,0,0,0), CONF_thresh=0.7, NMS_thresh=0.5):
     #img = Image.open(img_path)
     #
     #img_np = load_image_into_numpy_array(img)
@@ -158,7 +157,7 @@ def detect(sess, img_path, roi=(0,0,0,0), thresh=0.7):
     boxes, scores, classes = sess.run(outputs,feed_dict=feed_dict) 
  
     return translate_result_NMS(boxes, scores, classes, img_width,\
-                            img_height, thresh, roi)
+                            img_height, CONF_thresh, roi, NMS_thresh)
 
 
     
@@ -167,13 +166,13 @@ if __name__ == "__main__":
   
 
     TEST_IMAGE_PATHS = glob.glob("test_images/*.jpg")
-    THRESHOLD = 0.7
+    CONF_THRESHOLD = 0.7
     model = MODELS[0]
     sess = load_model(model) 
    
     for img_path in TEST_IMAGE_PATHS:
         tic = time.time()
-        outputs = detect(sess, img_path, thresh=THRESHOLD)
+        outputs = detect(sess, img_path, CONF_thresh=CONF_THRESHOLD)
         
         for output in outputs:                     
             score = output['score'] 
