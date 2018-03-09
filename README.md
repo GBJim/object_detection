@@ -7,12 +7,12 @@ Install the following dependencies sequentially
 1. Download the latest Nvidia Driver for GPU from Nvidia Website. [Download Link](http://www.nvidia.com.tw/Download/index.aspx)
 2. Install the driver. 
 
-### 2.CUDA Toolkit 8.0
-1. Download CUDA Toolkit 8.0 for Windows from Nvidia Website. [Download Link](https://developer.nvidia.com/cuda-80-ga2-download-archive) 
+### 2.CUDA Toolkit 9.0
+1. Download CUDA Toolkit 9.0 for Windows from Nvidia Website. [Download Link](https://developer.nvidia.com/cuda-90-download-archive) 
 2. Install the CUDA Toolkit. 
 
-### 3.cuDNN V6
-1. Download the Windows version of cuDNN v6 for CUDA 8.0 from Nvidia Website. [Download Link](https://developer.nvidia.com/cudnn)(You need to register for downloading)
+### 3.cuDNN V7
+1. Download the Windows version of cuDNN v7.04 for CUDA 9.0 from Nvidia Website. [Download Link](https://developer.nvidia.com/cudnn)(You need to register for downloading)
 2. Unzip the folders bin, lib, and include to the CUDA installation path, which is C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0 by default
 
 ### 4.Miniconda
@@ -59,6 +59,10 @@ $ python
 ```
 (tensorflow)C:> pip install matplotlib pillow lxml
 ```
+
+### 7.Install Git
+Donwload GIT and install it. [Download Link](https://git-scm.com/download/win)
+
 
 ## Install Tensorflow:Object Detection
 1. Clone this repository
